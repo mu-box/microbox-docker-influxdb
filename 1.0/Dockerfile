@@ -1,10 +1,10 @@
-FROM nanobox/runit
+FROM mubox/base
 
 # Create directories
 RUN mkdir -p \
-  /var/log/gonano \
-  /var/nanobox \
-  /opt/nanobox/hooks
+  /var/log/gomicro \
+  /var/microbox \
+  /opt/microbox/hooks
 
 # Install influxdb
 RUN wget -O /tmp/influxdb.deb https://dl.influxdata.com/influxdb/releases/influxdb_1.2.4_amd64.deb && \
@@ -30,15 +30,15 @@ RUN apt-get update -qq && \
 RUN curl \
       -f \
       -k \
-      https://s3.amazonaws.com/tools.nanobox.io/hooks/influxdb-stable.tgz \
-        | tar -xz -C /opt/nanobox/hooks
+      https://s3.amazonaws.com/tools.microbox.cloud/hooks/influxdb-stable.tgz \
+        | tar -xz -C /opt/microbox/hooks
 
 # Download hooks md5 (used to perform updates)
 RUN curl \
       -f \
       -k \
-      -o /var/nanobox/hooks.md5 \
-      https://s3.amazonaws.com/tools.nanobox.io/hooks/influxdb-stable.md5
+      -o /var/microbox/hooks.md5 \
+      https://s3.amazonaws.com/tools.microbox.cloud/hooks/influxdb-stable.md5
 
 # Run runit automatically
-CMD [ "/opt/gonano/bin/nanoinit" ]
+CMD [ "/opt/gomicro/bin/microinit" ]
